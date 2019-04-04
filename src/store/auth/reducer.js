@@ -9,19 +9,32 @@ const initialState = {
 
 const authReducer = handleActions(
 	{
-		[types.AUTH_USER_START]: state => ({
+		[types.LOGIN_START]: state => ({
 			...state,
 			loading: true
 		}),
-		[types.AUTH_USER_FINISH]: (state, action) => ({
+		[types.LOGIN_FINISH]: (state, action) => ({
 			...state,
 			loading: false,
 			error: null,
 			token: action.payload,
 		}),
-		[types.AUTH_USER_ERROR]: (state, action) => ({
+		[types.LOGIN_ERROR]: (state, action) => ({
 			...state,
 			loading: false,
+			error: action.payload
+		}),
+		[types.LOGOUT_START]: (state) =>({
+			...state,
+			loading: true,
+		}),
+		[types.LOGOUT_FINISH]: (state) =>({
+			...state,
+			token: null,
+			loading: false,
+			error: null
+		}),
+		[types.LOGOUT_ERROR]: (state, action) =>({
 			error: action.payload
 		}),
 		[types.REGISTER_START]: (state) => ({

@@ -8,7 +8,7 @@ import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic, rootReducer } from './index';
 import storage from 'redux-persist/lib/storage';
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({hashType: "slash"});
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -21,9 +21,9 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
 const middleWares = applyMiddleware(
+	epicMiddleware,
 	routerMiddleware(history),
-	createLogger(),
-	epicMiddleware
+	createLogger()
 );
 
 export default () => {

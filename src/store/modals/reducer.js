@@ -2,21 +2,16 @@ import handleActions from 'redux-actions/es/handleActions';
 import types from './types';
 
 const initialState = {
-	isOpen: false,
-	component: null
+
 };
 
 const modalReducer = handleActions(
 	{
 		[types.MODAL_OPEN]: (state, action) => ({
-			...state,
-			isOpen: true,
-			component: action.payload
+			[action.payload]: true
 		}),
-		[types.MODAL_CLOSE]: state => ({
-			...state,
-			isOpen: false,
-			component: null
+		[types.MODAL_CLOSE]: (state, action) => ({
+			[action.payload]: false
 		})
 	}, initialState
 );

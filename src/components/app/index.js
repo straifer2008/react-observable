@@ -1,11 +1,17 @@
 import {compose} from 'recompose';
 import App from './App';
 import {connect} from 'react-redux';
+import {withStyles} from '@material-ui/core';
 
-const mapStateToProps = state => ({});
+const styles = theme => ({
+	root: {
+		flexGrow: 1,
+	}
+});
 
 const enhance = compose(
-	connect(mapStateToProps)
+	connect(),
+	withStyles(styles)
 );
 
 export default enhance(App);

@@ -5,13 +5,14 @@ import { reducer as permissions } from "react-redux-permissions"
 import authReducer from './auth/reducer';
 import userReducer from './user/reducer';
 import modalReducer from './modals/reducer';
-import {authLoginEpic, confirmEmailEpic, registerEpic} from './auth/authEpic';
+import {authLoginEpic, confirmEmailEpic, logoutEpic, registerEpic} from './auth/authEpic';
 import {toastsReducer as toasts} from 'react-toastify-redux';
 
 export const rootEpic = combineEpics(
 	authLoginEpic,
 	registerEpic,
-	confirmEmailEpic
+	confirmEmailEpic,
+	logoutEpic
 );
 
 export const rootReducer = (history) => combineReducers({

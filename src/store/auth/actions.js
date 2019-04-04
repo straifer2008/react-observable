@@ -2,9 +2,12 @@ import { createActions } from 'redux-actions';
 import types from './types';
 
 export const {
-	authUserStart,
-	authUserFinish,
-	authUserError,
+	loginStart,
+	loginFinish,
+	loginError,
+	logoutStart,
+	logoutFinish,
+	logoutError,
 	registerStart,
 	registerFinish,
 	registerError,
@@ -12,9 +15,12 @@ export const {
 	confirmEmailFinish,
 	confirmEmailError
 } = createActions(
-	types.AUTH_USER_START,
-	types.AUTH_USER_FINISH,
-	types.AUTH_USER_ERROR,
+	types.LOGIN_START,
+	types.LOGIN_FINISH,
+	types.LOGIN_ERROR,
+	types.LOGOUT_START,
+	types.LOGOUT_FINISH,
+	types.LOGOUT_ERROR,
 	types.REGISTER_START,
 	types.REGISTER_FINISH,
 	types.REGISTER_ERROR,

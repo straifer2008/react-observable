@@ -1,6 +1,13 @@
-import {compose} from 'recompose';
+import { compose } from 'recompose';
 import LoginModal from './loginModal';
+import {connect} from 'react-redux';
 
-const enhance = compose();
+const mapStateToProps = state => ({
+	loading: state.auth.loading
+});
 
-export default enhance(LoginModal)
+const enhance = compose(
+	connect(mapStateToProps)
+);
+
+export default enhance(LoginModal);

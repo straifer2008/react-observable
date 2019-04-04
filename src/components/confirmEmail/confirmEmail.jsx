@@ -1,5 +1,5 @@
 import React from 'react';
-import Loader from '../loader/loader';
+import {Loader} from '../';
 import './style.scss'
 
 const confirmEmail = () => (
