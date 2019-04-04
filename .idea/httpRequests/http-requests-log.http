@@ -1,0 +1,42 @@
+POST http://127.0.0.1:3333/register
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-29T041526.500.html
+
+###
+
+POST https://localhost/register
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-29T041429.404.html
+
+###
+
+POST https://127.0.0.1/register
+Accept: */*
+Cache-Control: no-cache
+
+{"email": "test@testest.com", "password": "123123123"}
+
+<> 2019-03-29T041244.404.html
+
+###
+
+POST https://127.0.0.1/register?email=email@email.com&password=123123123
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-29T041131.404.html
+
+###
+
+POST https://127.0.0.1/register?email=email@email.com&password=123123123
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-03-29T041039.404.html
+
+###
+
