@@ -16,7 +16,8 @@ const styles = theme => ({
 });
 
 const mapStateToProps = state => ({
-	token: state.auth.token
+	token: state.auth.token,
+	user: state.user
 });
 
 const mapDispatchToProps = ({

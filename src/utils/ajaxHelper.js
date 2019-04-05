@@ -38,3 +38,27 @@ export const remove = (url, params, headers) => {
 
 	return ajax.delete(modifiedUrl, { ...headers, ...defaultHeaders })
 };
+
+export const checkErrorType = (err) => {
+	if (err.response && Array.isArray(err.response) && err.response[0].message) {
+		return {
+			error: err.response,
+			message: err.response[0].message
+		}
+	} else if (err.response && !Array.isArray(err.response) && err.response.message) {
+		return {
+			error: err.response.message,
+			message: err.response.message
+		}
+	} else if (!err.response && typeof err === 'string') {
+		return {
+			error: err,
+			message: err
+		}
+	} else {
+		return {
+			error: err,
+			message: 'Some error, try again later'
+		}
+	}
+};

@@ -4,6 +4,7 @@ import RegisterModal from './modals/registerModal'
 import LoginModal from './modals/loginModal'
 import Nav from './nav';
 import Loader from './loader';
+import Page404 from './404'
 
 export {
 	Nav,
@@ -11,5 +12,6 @@ export {
 	confirmEmail,
 	RegisterModal,
 	LoginModal,
-	Loader
+	Loader,
+	Page404
 }

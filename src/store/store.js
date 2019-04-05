@@ -7,15 +7,25 @@ import { routerMiddleware } from 'connected-react-router';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic, rootReducer } from './index';
 import storage from 'redux-persist/lib/storage';
+import {createBlacklistFilter} from 'redux-persist-transform-filter';
 
 export const history = createBrowserHistory({hashType: "slash"});
 
 const epicMiddleware = createEpicMiddleware();
 
+const saveSubsetBlacklistFilter = createBlacklistFilter(
+	'auth',
+	['loading']
+);
+
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['auth', 'user']
+	whitelist: ['auth', 'user', 'permissions'],
+	blacklist: ['loading'],
+	transforms: [
+		saveSubsetBlacklistFilter
+	]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer(history));

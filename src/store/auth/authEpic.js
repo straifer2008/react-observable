@@ -12,10 +12,11 @@ import {
 	registerFinish, logoutFinish, logoutError
 } from './actions';
 import {clearUser, getUser} from '../user/actions';
-import {getDefaultHeaders} from '../../utils/ajaxHelper';
+import {checkErrorType, getDefaultHeaders} from '../../utils/ajaxHelper';
 import {error, success} from 'react-toastify-redux';
 import {modalClose} from '../modals/actions';
 import { push } from 'connected-react-router';
+import { add, clear } from "react-redux-permissions"
 
 const API_URL_USER = 'http://127.0.0.1:3333';
 
@@ -55,33 +56,38 @@ export const authLoginEpic = (action$) => action$.pipe(
 	ofType(types.LOGIN_START),
 	debounceTime(250),
 	mergeMap(action => ajax.post(`${API_URL_USER}/login`, action.payload, getDefaultHeaders()).pipe(
-		mergeMap(({response}) => of(
-			getUser(response.user),
-			loginFinish(response.token.token),
-			push('/home'),
-			success('Login complete'),
-			// localStorage.setItem('token', response.token.token)
-		)), catchError(
-			({response}) => of(
-				loginError(Array.isArray(response) ? response[0] : response),
-				error(Array.isArray(response) ? response[0].message : response.message)
+		mergeMap( ({response}) => {
+			localStorage.setItem('token', response.token.token);
+			if (action.payload.remember) sessionStorage.setItem('token', response.token.token);
+			return of(
+				getUser(response.user),
+				add(response.permissions),
+				loginFinish(response.token.token),
+				push('/home'),
+				success('Login complete'),
 			)
-		)
-	))
+		}
+	), catchError((err) => of(
+			loginError(checkErrorType(err).error),
+			error(checkErrorType(err).message)
+	))))
 );
 
 export const logoutEpic = (action$) => action$.pipe(
 	ofType(types.LOGOUT_START),
 	debounceTime(250),
 	mergeMap(() => ajax.get(`${API_URL_USER}/logout`, getDefaultHeaders()).pipe(
-		mergeMap(() => of(
-			logoutFinish(),
-			clearUser(),
-			push('/'),
-			// localStorage.removeItem('token'),
-			success('Logout complete!')
-		)), catchError((error) => of(
-			logoutError(error),
+		mergeMap(() => {
+			localStorage.removeItem('token');
+			return of(
+				logoutFinish(),
+				clearUser(),
+				clear(),
+				push('/'),
+				success('Logout complete!')
+			)
+		}), catchError((err) => of(
+			logoutError(checkErrorType(err).error),
 		))
 	))
 );

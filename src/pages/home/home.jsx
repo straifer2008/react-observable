@@ -1,13 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Permissions from "react-redux-permissions"
+import './styles.scss';
+import {roles} from '../../constants/roles';
 
-const Home = ({name}) => (
-    <h1>Home {name}</h1>
+const Home = () => (
+	<div className='Home'>
+		<h1>Home</h1>
+		<Permissions allowed={roles.admin}>
+			<h2>Role is - Admin</h2>
+		</Permissions>
+		<Permissions allowed={roles.user}>
+			<h2>Role is - User</h2>
+		</Permissions>
+	</div>
 );
 
-Home.propTypes = {
-	name: PropTypes.string
-};
+Home.propTypes = {};
 
 Home.propTypes = {};
 export default Home;

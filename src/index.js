@@ -7,6 +7,8 @@ import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { ConnectedRouter } from 'connected-react-router'
 import configStore, {history} from './store/store';
+import DateFnsUtils from '@date-io/date-fns';
+import {MuiPickersUtilsProvider} from 'material-ui-pickers';
 
 const {persist, store} = configStore();
 
@@ -14,7 +16,9 @@ ReactDOM.render(
 	<Provider store={store}>
 		<PersistGate loading={null} persistor={persist}>
 			<ConnectedRouter history={history}>
-				<App/>
+				<MuiPickersUtilsProvider utils={DateFnsUtils}>
+					<App/>
+				</MuiPickersUtilsProvider>
 			</ConnectedRouter>
 		</PersistGate>
 	</Provider>, document.getElementById('root'));

@@ -1,65 +1,40 @@
 import React from 'react';
-import SendIcon from '@material-ui/icons/Send';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import {
-	Drawer, List,
-	ListItem, ListSubheader,
-	ListItemIcon, ListItemText,
-	Collapse
-} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import {ListItem, List, ListItemIcon, ListItemText, SwipeableDrawer} from '@material-ui/core';
+import {Settings, Home, Chat, GridOn} from '@material-ui/icons';
+import {Link} from 'react-router-dom';
+import './styles.scss';
 
-const Nav = ({openNav, toggleNav, openCollapse, toggleCollapse}) => (
-	<nav>
-		<Drawer
-			open={openNav}
-			onClose={() => toggleNav(!openNav)}
-			anchor='left'
-		>
-			<div
-				onClick={() => toggleNav(!openNav)}
-				onKeyDown={() => toggleNav(!openNav)}
-			>
-				<List
-					component="nav"
-					subheader={<ListSubheader component="div">Nested List Items</ListSubheader>}
-				>
-					<ListItem button>
-						<ListItemIcon>
-							<SendIcon/>
-						</ListItemIcon>
-						<ListItemText inset primary="Sent mail"/>
-					</ListItem>
-					<ListItem button>
-						<ListItemIcon>
-							<DraftsIcon/>
-						</ListItemIcon>
-						<ListItemText inset primary="Drafts"/>
-					</ListItem>
-					<ListItem button onClick={() => toggleCollapse(!openCollapse)}>
-						<ListItemIcon>
-							<InboxIcon/>
-						</ListItemIcon>
-						<ListItemText inset primary="Inbox"/>
-						{openCollapse ? <ExpandLess/> : <ExpandMore/>}
-					</ListItem>
-					<Collapse in={openCollapse} timeout="auto" unmountOnExit>
-						<List component="div" disablePadding>
-							<ListItem button>
-								<ListItemIcon>
-									<StarBorder/>
-								</ListItemIcon>
-								<ListItemText inset primary="Starred"/>
-							</ListItem>
-						</List>
-					</Collapse>
-				</List>
+const Nav = ({openNav, toggleNav, classes}) => (
+	<nav className='Nav'>
+		<SwipeableDrawer open={openNav} onClose={toggleNav} onOpen={toggleNav}>
+			<div tabIndex={0} role="button" onKeyDown={toggleNav} onClick={toggleNav}>
+				<div className={classes.list}>
+					<List className='Nav_list'>
+						{[
+							{text: 'Home', icon: <Home/>, path: '/home'},
+							{text: 'Chat', icon: <Chat/>, path: '/chat'},
+							{text: 'Grid', icon: <GridOn/>, path: 'grid'},
+							{text: 'Settings', icon: <Settings/>, path: '/settings'}
+						].map(item => (
+							<Link to={item.path} key={item.text}>
+								<ListItem button>
+									<ListItemIcon>{item.icon}</ListItemIcon>
+									<ListItemText primary={item.text}/>
+								</ListItem>
+							</Link>
+						))}
+					</List>
+				</div>
 			</div>
-		</Drawer>
+		</SwipeableDrawer>
 	</nav>
 );
+
+Nav.propTypes = {
+	classes: PropTypes.object.isRequired,
+	openNav: PropTypes.bool,
+	toggleNav: PropTypes.func
+};
 
 export default Nav;

@@ -5,21 +5,24 @@ import {Nav} from '../';
 
 const Header = ({
 	                classes, toggleNav, nav,
-	                modalOpen, token, logout
+	                modalOpen, token, logout, user
                 }) => (
     <header>
 	    <AppBar position="static">
 		    <Toolbar>
-			    <IconButton
-				    className={classes.menuButton}
-				    onClick={() => toggleNav(!nav)}
-				    color="inherit"
-				    aria-label="Menu"
-			    >
-				    <MenuIcon/>
-				    <Nav openNav={nav} toggleNav={() => toggleNav(!nav)}/>
-			    </IconButton>
-			    <Typography variant="h6" color="inherit" className={classes.grow}>TEST PROJECT</Typography>
+			    {
+				    token ?
+					    <IconButton
+						    className={classes.menuButton}
+						    onClick={() => toggleNav(!nav)}
+						    color="inherit"
+						    aria-label="Menu"
+					    >
+						    <MenuIcon/>
+					    </IconButton> : null
+			    }
+			    <Nav openNav={nav} toggleNav={() => toggleNav(!nav)}/>
+			    <Typography variant="h6" color="inherit" className={classes.grow}>{!token ? 'ARTEM PROJECT' : user.email}</Typography>
 			    {
 				    !token ?
 					   <>

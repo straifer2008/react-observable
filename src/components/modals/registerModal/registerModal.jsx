@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Loader} from '../../';
-import {Button, Checkbox, Grid, Input, InputLabel, Typography} from '@material-ui/core';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import './styles.scss';
+import PropTypes from 'prop-types';
+import {Input, Button, Grid, Typography} from '@material-ui/core';
+import {Loader} from '../../';
 
-const LoginValidation = Yup.object().shape({
+const RegisterValidation = Yup.object().shape({
 	email: Yup.string()
 		.email('Invalid email')
 		.required('Required'),
@@ -14,19 +13,22 @@ const LoginValidation = Yup.object().shape({
 		.min(5)
 		.max(20)
 		.required('Password is required'),
+	// passwordConfirmation: Yup.string()
+	// 	.oneOf([Yup.ref('password'), null], 'Passwords must match')
 });
 
-const LoginModal = ({onSubmit, loading}) => (
-	loading ? <Loader/> :
-		<div>
+const RegisterModal = ({onSubmit, loading}) => (
+	loading ?
+		<Loader/> :
+		<div className='LoginModal'>
 			<Grid container justify='center' spacing={24}>
 				<Grid item>
-					<Typography align='center' color='textPrimary' variant='h3'>Login</Typography>
+					<Typography align='center' color='textPrimary' variant='h3'>Register</Typography>
 				</Grid>
 			</Grid>
 			<Formik
-				initialValues={{email: '', password: '', remember: false}}
-				validationSchema={LoginValidation}
+				initialValues={{email: '', password: ''}}
+				validationSchema={RegisterValidation}
 				onSubmit={values => onSubmit(values)}
 			>
 				{({
@@ -64,14 +66,7 @@ const LoginModal = ({onSubmit, loading}) => (
 								<Typography color='error'>{errors.password && touched.password && errors.password}</Typography>
 							</Grid>
 							<Grid item xs>
-								<Grid container justify='space-between'>
-									<InputLabel className='rememberMe'>
-										<Checkbox
-											color="primary"
-											onChange={() => values.remember = !values.remember}
-										/>
-										<Typography variant="caption" color="inherit">Remember me</Typography>
-									</InputLabel>
+								<Grid container justify='flex-end'>
 									<Button
 										variant="outlined"
 										color='primary'
@@ -87,7 +82,9 @@ const LoginModal = ({onSubmit, loading}) => (
 		</div>
 );
 
-LoginModal.propTypes = {
-	onSubmit: PropTypes.func
+RegisterModal.propTypes = {
+	onSubmit: PropTypes.func,
+	loading: PropTypes.bool
 };
-export default LoginModal;
+
+export default RegisterModal;
